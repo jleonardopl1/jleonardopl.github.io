@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonas Leonardo — Data Analyst · BI · Python</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN SYSTEM — DataViz Portfolio Palette
+   Jet Black   #2C363F
+   Blush Rose  #E75A7C
+   Ivory       #F2F5EA
+   Dust Grey   #D6DBD2
+   Dry Sage    #BBC7A4
+═══════════════════════════════════════════════ */
+:root {
+  --ivory:      #F2F5EA;
+  --ivory-dark: #E8EDD8;
+  --jet:        #2C363F;
+  --jet-light:  #4A5A65;
+  --rose:       #E75A7C;
+  --rose-light: #F2A0B4;
+  --rose-pale:  #FAE0E6;
+  --dust:       #D6DBD2;
+  --dust-dark:  #B8C0B4;
+  --sage:       #BBC7A4;
+  --sage-dark:  #8FA07A;
+  --sage-light: #D8E2C8;
+  --white:      #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ivory);
+  color: var(--jet);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════ TOPBAR ══════════════ */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--ivory); border-bottom: 1px solid var(--dust);
+  padding: 0 64px; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rose); }
+.topbar-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--jet-light); }
+.topbar-nav { display: flex; gap: 32px; }
+.topbar-nav a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dust-dark); text-decoration: none; transition: color 0.2s; }
+.topbar-nav a:hover { color: var(--rose); }
+
+/* ══════════════ HERO ══════════════ */
+.hero {
+  min-height: 100vh; padding: 120px 64px 80px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  border-bottom: 1px solid var(--dust);
+}
+.hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+.hero-eyebrow-line { width: 24px; height: 1.5px; background: var(--rose); }
+.hero-eyebrow span { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rose); }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(48px, 5vw, 74px); font-weight: 900; line-height: 1.0; letter-spacing: -2px; color: var(--jet); margin-bottom: 10px; }
+.hero h1 em { font-style: italic; color: var(--rose); }
+.hero-sub { font-size: 15.5px; color: var(--jet-light); line-height: 1.85; margin-top: 28px; max-width: 500px; font-weight: 300; }
+.hero-sub strong { color: var(--jet); font-weight: 500; }
+.hero-meta { margin-top: 44px; display: flex; flex-wrap: wrap; gap: 10px; }
+.hero-meta-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dust-dark); border: 1px solid var(--dust); padding: 6px 12px; }
+.hero-cta { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+.btn-primary { background: var(--rose); color: white; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 14px 28px; text-decoration: none; border: 1.5px solid var(--rose); transition: all 0.2s; }
+.btn-primary:hover { background: transparent; color: var(--rose); }
+.btn-secondary { background: transparent; color: var(--jet); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 14px 28px; text-decoration: none; border: 1.5px solid var(--dust); transition: all 0.2s; }
+.btn-secondary:hover { border-color: var(--jet); }
+.hero-right { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.hero-stat-card { background: var(--white); padding: 36px 28px; border: 1px solid var(--dust); }
+.hero-stat-card.featured { background: var(--jet); color: var(--ivory); }
+.hero-stat-card.featured .stat-label { color: var(--dust); }
+.hero-stat-card.rose-card { background: var(--rose); color: white; }
+.hero-stat-card.rose-card .stat-label { color: rgba(255,255,255,0.75); }
+.hero-stat-card.rose-card .stat-num { color: white; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; line-height: 1; letter-spacing: -2px; color: var(--jet); }
+.hero-stat-card.featured .stat-num { color: var(--ivory); }
+.stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dust-dark); margin-top: 10px; line-height: 1.6; }
+.stat-delta { font-size: 12px; margin-top: 8px; font-weight: 400; color: var(--jet-light); }
+.hero-stat-card.featured .stat-delta { color: var(--dust); }
+.hero-stat-card.rose-card .stat-delta { color: rgba(255,255,255,0.8); }
+
+/* ══════════════ SECTIONS ══════════════ */
+.section { padding: 96px 64px; border-bottom: 1px solid var(--dust); }
+.section.alt { background: var(--white); }
+.section.dark { background: var(--jet); color: var(--ivory); }
+.section.dark .section-title { color: var(--ivory); }
+.section.dark .section-desc { color: var(--dust); }
+.section.dark .section-desc strong { color: var(--ivory); }
+.section-header { display: grid; grid-template-columns: 100px 1fr; gap: 48px; margin-bottom: 60px; align-items: start; }
+.section-num { font-family: 'Playfair Display', serif; font-size: 80px; font-weight: 900; color: var(--dust); line-height: 1; letter-spacing: -4px; opacity: 0.55; padding-top: 4px; }
+.section.dark .section-num { color: rgba(255,255,255,0.06); }
+.section-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rose); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.section-eyebrow::before { content: ''; display: block; width: 18px; height: 1.5px; background: var(--rose); }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 2.8vw, 42px); font-weight: 700; line-height: 1.15; letter-spacing: -1px; color: var(--jet); margin-bottom: 18px; }
+.section-title em { font-style: italic; color: var(--rose); }
+.section-desc { font-size: 15px; color: var(--jet-light); line-height: 1.85; font-weight: 300; }
+.section-desc strong { color: var(--jet); font-weight: 500; }
+
+/* ══════════════ GRIDS ══════════════ */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+.grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 2px; align-items: start; }
+.grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; align-items: start; }
+
+/* ══════════════ SKILL CARDS ══════════════ */
+.skill-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 2px; }
+.skill-card { background: var(--white); border: 1px solid var(--dust); padding: 28px 24px; }
+.skill-card.accent { background: var(--jet); }
+.skill-card.rose-accent { background: var(--rose); }
+.skill-icon { font-size: 22px; margin-bottom: 14px; display: block; }
+.skill-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--jet); margin-bottom: 8px; letter-spacing: -0.3px; }
+.skill-card.accent .skill-name { color: var(--ivory); }
+.skill-card.rose-accent .skill-name { color: white; }
+.skill-desc { font-size: 12.5px; color: var(--jet-light); line-height: 1.7; font-weight: 300; }
+.skill-card.accent .skill-desc { color: var(--dust); }
+.skill-card.rose-accent .skill-desc { color: rgba(255,255,255,0.85); }
+.skill-level { margin-top: 16px; }
+.skill-level-bar { height: 3px; background: var(--dust); margin-top: 6px; }
+.skill-level-fill { height: 100%; background: var(--rose); }
+.skill-card.accent .skill-level-bar { background: rgba(255,255,255,0.1); }
+.skill-card.accent .skill-level-fill { background: var(--sage); }
+.skill-level-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dust-dark); }
+.skill-card.accent .skill-level-label { color: var(--dust-dark); }
+.skill-card.rose-accent .skill-level-label { color: rgba(255,255,255,0.7); }
+.skill-card.rose-accent .skill-level-bar { background: rgba(255,255,255,0.2); }
+.skill-card.rose-accent .skill-level-fill { background: white; }
+
+/* ══════════════ EXPERIENCE ══════════════ */
+.exp-item { display: grid; grid-template-columns: 160px 1fr; gap: 40px; padding: 40px 0; border-bottom: 1px solid var(--dust); align-items: start; }
+.exp-item:last-child { border-bottom: none; }
+.exp-period { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dust-dark); line-height: 1.8; padding-top: 4px; }
+.exp-company { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--rose); margin-top: 8px; }
+.exp-role { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--jet); margin-bottom: 12px; letter-spacing: -0.4px; }
+.exp-desc { font-size: 14px; color: var(--jet-light); line-height: 1.85; font-weight: 300; }
+.exp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.exp-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dust-dark); border: 1px solid var(--dust); padding: 4px 10px; }
+
+/* ══════════════ PROJECT CARDS ══════════════ */
+.project-card { background: var(--white); border: 1px solid var(--dust); }
+.project-card-header { padding: 36px 36px 28px; border-bottom: 1px solid var(--dust); position: relative; }
+.project-badge { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); border: 1px solid var(--rose-pale); background: var(--rose-pale); padding: 4px 10px; display: inline-block; margin-bottom: 16px; }
+.project-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--jet); letter-spacing: -0.5px; margin-bottom: 10px; line-height: 1.2; }
+.project-title em { font-style: italic; color: var(--rose); }
+.project-subtitle { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--dust-dark); margin-bottom: 18px; }
+.project-desc { font-size: 14px; color: var(--jet-light); line-height: 1.85; font-weight: 300; }
+.project-tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.project-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dust-dark); border: 1px solid var(--dust); padding: 4px 10px; }
+.project-body { padding: 36px; }
+.project-num-tag { position: absolute; top: 20px; right: 20px; font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--dust); opacity: 0.5; line-height: 1; }
+
+/* ══════════════ DATA / METHODOLOGY PANEL ══════════════ */
+.method-panel { background: var(--jet); color: var(--ivory); padding: 40px; }
+.method-panel h4 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--sage); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.method-panel h4::before { content: ''; display: block; width: 14px; height: 1.5px; background: var(--sage); }
+.method-source { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.07); align-items: flex-start; }
+.method-source:last-child { border-bottom: none; }
+.method-source-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--rose); min-width: 20px; padding-top: 1px; }
+.method-source-text { font-size: 12.5px; color: var(--dust); line-height: 1.7; font-weight: 300; }
+.method-source-text strong { color: var(--ivory); font-weight: 500; }
+.formula-block { background: rgba(231,90,124,0.08); border-left: 2px solid var(--rose); padding: 16px 20px; margin-top: 20px; }
+.formula-block code { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--rose-light); line-height: 1.9; display: block; }
+.formula-block .formula-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--sage); margin-bottom: 10px; }
+
+/* ══════════════ KPI ROW ══════════════ */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 2px; }
+.kpi-card { background: var(--white); border: 1px solid var(--dust); padding: 28px 24px 24px; }
+.kpi-card.hl { background: var(--rose); }
+.kpi-card.hl .kpi-label { color: rgba(255,255,255,0.75); }
+.kpi-card.hl .kpi-value { color: white; }
+.kpi-card.hl .kpi-sub { color: rgba(255,255,255,0.85); }
+.kpi-card.dk { background: var(--jet); }
+.kpi-card.dk .kpi-label { color: var(--dust-dark); }
+.kpi-card.dk .kpi-value { color: var(--ivory); }
+.kpi-card.dk .kpi-sub { color: var(--dust); }
+.kpi-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dust-dark); margin-bottom: 12px; }
+.kpi-value { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: var(--jet); line-height: 1; letter-spacing: -1.5px; }
+.kpi-sub { font-size: 12px; color: var(--jet-light); margin-top: 8px; }
+
+/* ══════════════ CHART WRAPS ══════════════ */
+.chart-wrap { background: var(--white); border: 1px solid var(--dust); padding: 36px 36px 28px; position: relative; }
+.chart-tag { position: absolute; top: 18px; right: 18px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dust-dark); background: var(--ivory); border: 1px solid var(--dust); padding: 4px 8px; }
+.chart-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; letter-spacing: -0.4px; color: var(--jet); margin-bottom: 4px; }
+.chart-subtitle { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--dust-dark); text-transform: uppercase; margin-bottom: 28px; }
+.chart-source { font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--dust-dark); margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--dust); letter-spacing: 0.3px; line-height: 1.6; }
+
+/* ══════════════ INSIGHT ══════════════ */
+.insight { border-left: 3px solid var(--rose); padding: 24px 32px; background: var(--rose-pale); margin: 40px 0; display: grid; grid-template-columns: 40px 1fr; gap: 20px; align-items: start; }
+.insight-icon { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--rose); line-height: 1.1; }
+.insight-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); margin-bottom: 8px; }
+.insight p { font-size: 14px; color: var(--jet); line-height: 1.8; }
+.insight p strong { font-weight: 600; }
+
+/* ══════════════ PROGRESS BARS ══════════════ */
+.bar-item { margin-bottom: 14px; }
+.bar-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.bar-name { font-size: 13px; font-weight: 400; color: var(--jet); }
+.bar-val { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; color: var(--rose); }
+.bar-track { height: 4px; background: var(--dust); }
+.bar-fill { height: 100%; background: var(--rose); width: 0%; transition: width 1.6s cubic-bezier(0.4,0,0.2,1); }
+.bar-fill.sage { background: var(--sage-dark); }
+.bar-fill.jet { background: var(--jet); }
+
+/* ══════════════ CONTACT ══════════════ */
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.contact-card { background: var(--white); border: 1px solid var(--dust); padding: 36px 32px; text-decoration: none; color: var(--jet); transition: all 0.2s; }
+.contact-card:hover { background: var(--jet); }
+.contact-card:hover .contact-label { color: var(--dust); }
+.contact-card:hover .contact-value { color: var(--ivory); }
+.contact-card:hover .contact-icon { color: var(--rose); }
+.contact-icon { font-size: 22px; margin-bottom: 16px; display: block; color: var(--rose); }
+.contact-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dust-dark); margin-bottom: 8px; }
+.contact-value { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--jet); letter-spacing: -0.3px; line-height: 1.3; }
+
+/* ══════════════ FOOTER ══════════════ */
+footer {
+  background: var(--jet); color: var(--ivory);
+  padding: 64px; display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+  border-top: 3px solid var(--rose);
+}
+.footer-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; margin-bottom: 14px; letter-spacing: -0.5px; }
+.footer-brand em { font-style: italic; color: var(--rose); }
+.footer-tagline { font-size: 13px; color: var(--dust); line-height: 1.75; font-weight: 300; max-width: 280px; }
+.footer-col h5 { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sage); margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col li { font-size: 12px; color: var(--dust); line-height: 2.1; font-weight: 300; }
+.footer-bottom { background: var(--jet); padding: 20px 64px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dust-dark); letter-spacing: 0.5px; }
+
+/* ══════════════ UTILITIES ══════════════ */
+canvas { display: block; width: 100% !important; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--ivory); }
+::-webkit-scrollbar-thumb { background: var(--dust); }
+
+/* ══════════════ CERTIFICATION BADGE ══════════════ */
+.cert-row { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 2px; }
+.cert-card { background: var(--white); border: 1px solid var(--dust); padding: 20px 24px; flex: 1; min-width: 200px; }
+.cert-year { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--rose); letter-spacing: 1px; margin-bottom: 6px; }
+.cert-name { font-size: 13px; font-weight: 500; color: var(--jet); line-height: 1.4; }
+.cert-issuer { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--dust-dark); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+/* ══════════════ DARK CHART ADAPTATIONS ══════════════ */
+.section.dark .chart-wrap { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.09); }
+.section.dark .chart-title { color: var(--ivory); }
+.section.dark .chart-subtitle { color: var(--dust-dark); }
+.section.dark .chart-source { color: rgba(255,255,255,0.28); border-top-color: rgba(255,255,255,0.08); }
+.section.dark .chart-tag { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+
+/* ══════════════ ABOUT PANEL ══════════════ */
+.about-panel { background: var(--jet); padding: 48px 40px; color: var(--ivory); }
+.about-quote { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ivory); line-height: 1.45; letter-spacing: -0.5px; margin-bottom: 24px; }
+.about-quote em { color: var(--rose); font-style: italic; }
+.about-body { font-size: 13.5px; color: var(--dust); line-height: 1.85; font-weight: 300; }
+.about-body strong { color: var(--ivory); font-weight: 500; }
+.about-divider { width: 32px; height: 2px; background: var(--rose); margin: 24px 0; }
+.about-fact-row { display: flex; flex-direction: column; gap: 0; margin-top: 20px; }
+.about-fact { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.about-fact:last-child { border-bottom: none; }
+.about-fact-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dust-dark); letter-spacing: 1px; text-transform: uppercase; }
+.about-fact-value { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ivory); }
+
+/* ══════════════ ACTIVE NAV ══════════════ */
+.topbar-nav a.active { color: var(--rose); }
+</style>
+</head>
+<body>
+
+<!-- ════════════ TOPBAR ════════════ -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-dot"></div>
+    <span class="topbar-label">Jonas Leonardo · Data Analyst & BI</span>
+  </div>
+  <div class="topbar-nav">
+    <a href="#sobre">Sobre</a>
+    <a href="#habilidades">Habilidades</a>
+    <a href="#experiencia">Experiência</a>
+    <a href="#projetos">Projetos</a>
+    <a href="#contato">Contato</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════
+     HERO
+════════════════════════════════════ -->
+<section class="hero" id="inicio">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Portfólio · Data Analytics & BI</span>
+    </div>
+    <h1>Jonas<br>Leonardo.<br><em>Data.</em></h1>
+    <p class="hero-sub">
+      Analista de dados com mais de <strong>9 anos de experiência</strong> em agronegócio e
+      operações. Especialista em <strong>Excel, Power BI e Python</strong> — transformo dados
+      complexos em decisões estratégicas claras. Cuiabá, MT.
+    </p>
+    <div class="hero-meta">
+      <span class="hero-meta-tag">Power BI · Excel · Python</span>
+      <span class="hero-meta-tag">KPI · Indicadores</span>
+      <span class="hero-meta-tag">Agronegócio · Operações</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projetos" class="btn-primary">Ver Projetos →</a>
+      <a href="mailto:jleonardopl@gmail.com" class="btn-secondary">Contato</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat-card featured">
+      <div class="stat-num">9+</div>
+      <div class="stat-label">Anos de experiência<br>em análise de dados</div>
+      <div class="stat-delta">Louis Dreyfus + Agro Amazônia</div>
+    </div>
+    <div class="hero-stat-card rose-card">
+      <div class="stat-num">6 anos</div>
+      <div class="stat-label">na Louis Dreyfus<br>Company</div>
+      <div class="stat-delta">Analista Operacional + Capex</div>
+    </div>
+    <div class="hero-stat-card">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">ferramentas<br>de BI avançadas</div>
+      <div class="stat-delta">Excel · Power BI · Python</div>
+    </div>
+    <div class="hero-stat-card">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">decisões orientadas<br>por dados e KPIs</div>
+      <div class="stat-delta">Desde 2014</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     01 — SOBRE
+════════════════════════════════════ -->
+<section class="section alt" id="sobre">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div>
+      <div class="section-eyebrow">Sobre Mim</div>
+      <h2 class="section-title">Dados não são<br>o destino — são<br>o <em>caminho.</em></h2>
+      <p class="section-desc">
+        Especialista em construção e manutenção de indicadores de gestão que impulsionam decisões
+        estratégicas e melhoria operacional contínua. Com forte domínio em <strong>Excel, Power BI e Python</strong>,
+        estou dedicado a entregar análises precisas alinhadas às metas corporativas.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="about-panel">
+      <div class="about-quote">
+        "Transformar dados em <em>narrativas</em> que movem organizações."
+      </div>
+      <div class="about-divider"></div>
+      <div class="about-body">
+        Com mais de <strong>6 anos na Louis Dreyfus Company</strong>, aprimorei minha expertise em
+        análise operacional e gestão de Capex, desempenhando papel fundamental na otimização de
+        processos em armazéns de grãos em todo o Brasil. Mantive controle rigoroso sobre consumo
+        e custos variáveis, garantindo desempenho operacional de alto nível e atingindo todos os KPIs.
+        <br><br>
+        Na <strong>Agro Amazônia</strong>, atuei como Analista de Rebates e Prêmios, desenvolvendo
+        dashboards e relatórios executivos que orientaram campanhas comerciais de alto impacto.
+      </div>
+      <div class="about-fact-row">
+        <div class="about-fact"><span class="about-fact-label">Formação</span><span class="about-fact-value">Mackenzie</span></div>
+        <div class="about-fact"><span class="about-fact-label">Localização</span><span class="about-fact-value">Cuiabá, MT</span></div>
+        <div class="about-fact"><span class="about-fact-label">Foco Atual</span><span class="about-fact-value">Data Science Agro</span></div>
+        <div class="about-fact"><span class="about-fact-label">Conexões</span><span class="about-fact-value">500+ LinkedIn</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="chart-wrap" style="margin-bottom:2px;">
+        <span class="chart-tag">Perfil</span>
+        <div class="chart-title">Distribuição de Expertise</div>
+        <div class="chart-subtitle">Proficiência por área · autoavaliação calibrada</div>
+        <canvas id="chart-radar" height="280"></canvas>
+        <div class="chart-source">Baseado em projetos entregues · 2014 – 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     02 — HABILIDADES
+════════════════════════════════════ -->
+<section class="section" id="habilidades">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div>
+      <div class="section-eyebrow">Stack Técnico</div>
+      <h2 class="section-title">Ferramentas que<br>geram <em>resultado.</em></h2>
+      <p class="section-desc">
+        Domínio aprofundado nas principais ferramentas de análise e visualização de dados,
+        com aplicação prática em projetos reais de <strong>agronegócio, operações industriais
+        e planejamento estratégico.</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="skill-grid">
+    <div class="skill-card accent">
+      <span class="skill-icon">📊</span>
+      <div class="skill-name">Microsoft Excel</div>
+      <p class="skill-desc">Power Query, Power Pivot, DAX avançado, tabelas dinâmicas, automatização com VBA e modelagem financeira.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Avançado</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:95%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card rose-accent">
+      <span class="skill-icon">🔷</span>
+      <div class="skill-name">Power BI</div>
+      <p class="skill-desc">Modelagem de dados, DAX complexo, dashboards executivos, relatórios com storytelling visual e automação de relatórios.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Avançado</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:90%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🐍</span>
+      <div class="skill-name">Python</div>
+      <p class="skill-desc">Pandas, NumPy, Matplotlib, Seaborn e automação de pipelines de dados. Análise exploratória e visualização avançada.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Intermediário-Avançado</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:78%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🗄️</span>
+      <div class="skill-name">SQL</div>
+      <p class="skill-desc">Consultas complexas, JOINs, CTEs, window functions e integração com sistemas ERP para extração de dados operacionais.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Intermediário</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:72%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-grid" style="margin-top:2px;">
+    <div class="skill-card">
+      <span class="skill-icon">📈</span>
+      <div class="skill-name">KPI Management</div>
+      <p class="skill-desc">Definição, construção e acompanhamento de indicadores de performance operacional, financeira e comercial.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Avançado</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:92%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🌾</span>
+      <div class="skill-name">Agronegócio</div>
+      <p class="skill-desc">Análise de commodities, gestão de safra, rebates comerciais, campanhas de premiação e cadeia de distribuição.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Especialista</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:95%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">💰</span>
+      <div class="skill-name">Capex & Opex</div>
+      <p class="skill-desc">Controle de capital expenditure, gestão de custos variáveis e modelagem de cenários para tomada de decisão.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Avançado</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:85%"></div></div>
+      </div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🤖</span>
+      <div class="skill-name">Data Science</div>
+      <p class="skill-desc">Análise preditiva, modelos de forecasting, estatística aplicada e construção de pipelines analíticos para negócios.</p>
+      <div class="skill-level">
+        <div class="skill-level-label">Proficiência · Em Evolução</div>
+        <div class="skill-level-bar"><div class="skill-level-fill" style="width:68%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <div class="chart-wrap">
+      <span class="chart-tag">Habilidades</span>
+      <div class="chart-title">Evolução de Proficiência Técnica</div>
+      <div class="chart-subtitle">Nível estimado 0–100 · por ferramenta · 2016 – 2025</div>
+      <canvas id="chart-skills-timeline" height="260"></canvas>
+      <div class="chart-source">Autoavaliação calibrada por projetos entregues e certificações obtidas · 2016–2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     03 — EXPERIÊNCIA
+════════════════════════════════════ -->
+<section class="section alt" id="experiencia">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div>
+      <div class="section-eyebrow">Trajetória Profissional</div>
+      <h2 class="section-title">Cada empresa.<br>Uma <em>nova camada</em><br>de expertise.</h2>
+      <p class="section-desc">
+        Jornada construída em empresas de referência do agronegócio brasileiro —
+        da análise operacional em commodities ao BI estratégico para campanhas comerciais.
+      </p>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div>
+      <div class="exp-period">Jan 2022 —<br>Jan 2025</div>
+      <div class="exp-company">Agro Amazônia</div>
+    </div>
+    <div>
+      <div class="exp-role">Analista de Rebates e Prêmios</div>
+      <p class="exp-desc">
+        Responsável pelo desenvolvimento e manutenção de dashboards e relatórios executivos para
+        gestão de campanhas comerciais de rebates e premiação de distribuidores. Construção de
+        indicadores de performance comercial, análise de dados de safra e elaboração de relatórios
+        para diretoria e presidência. Implementação de modelos analíticos em Power BI, Excel (DAX,
+        Power Query) e Python para automação de relatórios e geração de insights estratégicos.
+      </p>
+      <div class="exp-tags">
+        <span class="exp-tag">Power BI</span>
+        <span class="exp-tag">Excel Avançado</span>
+        <span class="exp-tag">DAX</span>
+        <span class="exp-tag">Python</span>
+        <span class="exp-tag">Rebates</span>
+        <span class="exp-tag">KPIs Comerciais</span>
+        <span class="exp-tag">Relatórios Executivos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div>
+      <div class="exp-period">2016 —<br>Jan 2022</div>
+      <div class="exp-company">Louis Dreyfus Company</div>
+    </div>
+    <div>
+      <div class="exp-role">Analista Operacional & Capex</div>
+      <p class="exp-desc">
+        Mais de 6 anos desenvolvendo expertise em análise operacional e gestão de Capex em armazéns
+        de grãos em todo o Brasil. Controle rigoroso de consumo e custos variáveis, garantindo
+        performance operacional de alto nível e alcance de todos os KPIs definidos. Desenvolvimento
+        de sistemas de indicadores de gestão que orientaram decisões estratégicas e melhoria contínua
+        dos processos logísticos e armazenagem de commodities.
+      </p>
+      <div class="exp-tags">
+        <span class="exp-tag">Excel</span>
+        <span class="exp-tag">Capex Management</span>
+        <span class="exp-tag">Custos Variáveis</span>
+        <span class="exp-tag">KPIs Operacionais</span>
+        <span class="exp-tag">Commodities</span>
+        <span class="exp-tag">Logística</span>
+        <span class="exp-tag">Relatórios Gerenciais</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-icon">↗</div>
+    <div>
+      <div class="insight-tag">Impacto Cumulativo</div>
+      <p>9+ anos construindo indicadores que orientaram <strong>decisões estratégicas reais</strong> em duas das maiores empresas do agronegócio brasileiro. Da operação ao comercial: controle de Capex em armazéns de grãos até campanhas de rebates que movem <strong>distribuição em escala nacional.</strong></p>
+    </div>
+  </div>
+
+  <!-- Certificações -->
+  <h3 style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--jet); letter-spacing:-0.5px; margin: 48px 0 16px;">Formação & <em style="color:var(--rose);font-style:italic;">Certificações</em></h3>
+  <div class="cert-row">
+    <div class="cert-card">
+      <div class="cert-year">Graduação</div>
+      <div class="cert-name">Ensino Superior</div>
+      <div class="cert-issuer">Universidade Presbiteriana Mackenzie</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-year">Contínuo</div>
+      <div class="cert-name">Power BI & DAX Avançado</div>
+      <div class="cert-issuer">Microsoft Learn · Cursos Técnicos</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-year">Em Curso</div>
+      <div class="cert-name">Python para Data Science</div>
+      <div class="cert-issuer">Análise Aplicada ao Agronegócio</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-year">Prático</div>
+      <div class="cert-name">Business Intelligence Agro</div>
+      <div class="cert-issuer">Projetos Reais · Portfólio</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     04 — PROJETOS
+════════════════════════════════════ -->
+<section class="section dark" id="projetos">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div>
+      <div class="section-eyebrow">Portfólio de Projetos</div>
+      <h2 class="section-title">Análises que<br><em>contam histórias</em><br>com dados.</h2>
+      <p class="section-desc">
+        Projetos reais com <strong>dados verificáveis, fontes primárias e metodologia documentada.</strong>
+        Cada visualização conta uma história — e cada número tem uma fonte.
+      </p>
+    </div>
+  </div>
+
+  <!-- PROJECT 01 — REVOLUÇÃO VERDE -->
+  <div class="project-card" style="margin-bottom:2px;">
+    <div class="project-card-header">
+      <div class="project-num-tag">01</div>
+      <div class="project-badge">Estudo Publicado · 2025</div>
+      <div class="project-title">Revolução Verde 2.0 —<br><em>Biológicos vs. Químicos no Brasil</em></div>
+      <div class="project-subtitle">Série Temporal 2012–2028 · Forecast · Market Share Analysis</div>
+      <p class="project-desc">
+        Estudo de ciência de dados sobre a transição estrutural do mercado de defensivos agrícolas no Brasil.
+        12 anos de dados reais mostram como microrganismos estão substituindo moléculas — e o que isso significa
+        para distribuidores, indústrias e produtores até 2028. Mercado de biológicos cresceu +1.047% entre 2012 e 2023,
+        saindo de US$150M para US$1,7 bilhões, com market share saltando de 1,2% para 11,3%.
+      </p>
+      <div class="project-tag-row">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Chart.js</span>
+        <span class="project-tag">Série Temporal</span>
+        <span class="project-tag">Forecast CAGR</span>
+        <span class="project-tag">Agronegócio</span>
+        <span class="project-tag">Market Share</span>
+        <span class="project-tag">10 Visualizações</span>
+      </div>
+    </div>
+    <div class="project-body">
+
+      <!-- KPIs do projeto -->
+      <div class="kpi-row" style="margin-bottom:24px;">
+        <div class="kpi-card hl">
+          <div class="kpi-label">Crescimento 2012–2023</div>
+          <div class="kpi-value">+1.047%</div>
+          <div class="kpi-sub">Mercado de biológicos</div>
+        </div>
+        <div class="kpi-card dk">
+          <div class="kpi-label">Market Share 2023</div>
+          <div class="kpi-value">11,3%</div>
+          <div class="kpi-sub">era 1,2% em 2012</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">CAGR Biológicos</div>
+          <div class="kpi-value">24,8%</div>
+          <div class="kpi-sub">vs. 4,3% mercado total</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Projeção 2028</div>
+          <div class="kpi-value">US$5Bi</div>
+          <div class="kpi-sub">25% de market share</div>
+        </div>
+      </div>
+
+      <!-- Charts do projeto -->
+      <div class="grid-2" style="margin-bottom:2px;">
+        <div class="chart-wrap">
+          <span class="chart-tag">Fig. A</span>
+          <div class="chart-title">Evolução Mercado de Biológicos + Market Share</div>
+          <div class="chart-subtitle">US$ Milhões (barras) · Market Share % (linha) · 2012–2023</div>
+          <canvas id="proj-chart-main" height="280"></canvas>
+          <div class="chart-source">ABCBIO Relatório 2023 · CropLife Brasil · SINDIVEG · MAPA/SDA</div>
+        </div>
+        <div class="chart-wrap">
+          <span class="chart-tag">Fig. B</span>
+          <div class="chart-title">Histórico + Forecast 2024–2028</div>
+          <div class="chart-subtitle">Real (sage) · Projetado (rose) · Market Share % (linha)</div>
+          <canvas id="proj-chart-forecast" height="280"></canvas>
+          <div class="chart-source">ABCBIO 2023 · Modelo CAGR · Mordor Intelligence 2024</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:24px;">
+        <div class="chart-wrap">
+          <span class="chart-tag">Fig. C</span>
+          <div class="chart-title">Custo por Hectare — Químicos vs. Biológicos</div>
+          <div class="chart-subtitle">R$/hectare · Soja · CEPEA/ESALQ</div>
+          <canvas id="proj-chart-custo" height="240"></canvas>
+          <div class="chart-source">CEPEA/ESALQ — Indicadores de Custo de Produção de Soja 2012–2023</div>
+        </div>
+        <div class="chart-wrap">
+          <span class="chart-tag">Fig. D</span>
+          <div class="chart-title">Crescimento YoY (%) — Mercado Biológicos</div>
+          <div class="chart-subtitle">Taxa de crescimento anual · anos acima de 28% em destaque</div>
+          <canvas id="proj-chart-yoy" height="240"></canvas>
+          <div class="chart-source">ABCBIO · CropLife Brasil · Relatório Setorial 2023</div>
+        </div>
+      </div>
+
+      <!-- Bases de dados e metodologia -->
+      <div class="grid-2">
+        <div class="method-panel">
+          <h4>Bases de Dados Consultadas</h4>
+          <div class="method-source">
+            <div class="method-source-num">01</div>
+            <div class="method-source-text"><strong>ABCBIO — Associação Brasileira de Controle Biológico</strong><br>Relatório Anual 2023 · Dados históricos de volume de mercado, market share e categorias de produtos biológicos (2012–2023).</div>
+          </div>
+          <div class="method-source">
+            <div class="method-source-num">02</div>
+            <div class="method-source-text"><strong>MAPA/SDA — Anuário de Defensivos Agrícolas 2023</strong><br>Dados de registro de produtos (AGROFIT), comercialização por estado (Nota Técnica MAPA/DAS/DFIA N° 3/2023) e pipeline regulatório.</div>
+          </div>
+          <div class="method-source">
+            <div class="method-source-num">03</div>
+            <div class="method-source-text"><strong>SINDIVEG & CropLife Brasil</strong><br>Market share setorial, crescimento anual do mercado total de defensivos e dados de novos registros por categoria (2012–2023).</div>
+          </div>
+          <div class="method-source">
+            <div class="method-source-num">04</div>
+            <div class="method-source-text"><strong>CEPEA/ESALQ — USP</strong><br>Indicadores de custo de produção de soja (R$/hectare) em Paraná e Mato Grosso, série histórica 2012–2023.</div>
+          </div>
+          <div class="method-source">
+            <div class="method-source-num">05</div>
+            <div class="method-source-text"><strong>Mordor Intelligence</strong><br>Brazil Bioagricultural Market 2024 — validação externa do modelo de projeção CAGR para o período 2024–2028.</div>
+          </div>
+        </div>
+
+        <div class="method-panel">
+          <h4>Fórmulas e Metodologia</h4>
+          <div class="method-source">
+            <div class="method-source-num">01</div>
+            <div class="method-source-text"><strong>Market Share (%)</strong></div>
+          </div>
+          <div class="formula-block">
+            <div class="formula-label">Cálculo</div>
+            <code>Share(t) = Volume_Bio(t) / Volume_Total(t) × 100</code>
+            <code>Onde Volume_Total = Σ(químicos + biológicos)</code>
+          </div>
+          <div class="method-source" style="margin-top:16px;">
+            <div class="method-source-num">02</div>
+            <div class="method-source-text"><strong>CAGR — Compound Annual Growth Rate</strong></div>
+          </div>
+          <div class="formula-block">
+            <div class="formula-label">Fórmula</div>
+            <code>CAGR = (Vfinal / Vinicial)^(1/n) - 1</code>
+            <code>n = número de anos (2023-2012 = 11)</code>
+            <code>CAGR Bio = (1720/150)^(1/11) - 1 = 24.8%</code>
+          </div>
+          <div class="method-source" style="margin-top:16px;">
+            <div class="method-source-num">03</div>
+            <div class="method-source-text"><strong>Forecast 2024–2028 (modelo ajustado)</strong></div>
+          </div>
+          <div class="formula-block">
+            <div class="formula-label">Projeção</div>
+            <code>V(t) = V(2023) × (1 + CAGR_adj)^(t-2023)</code>
+            <code>CAGR_adj = 24.8% × fator_regulatório</code>
+            <code>fator_regulatório = Lei 14.785/2023</code>
+          </div>
+          <div class="method-source" style="margin-top:16px;">
+            <div class="method-source-num">04</div>
+            <div class="method-source-text"><strong>YoY Growth (%)</strong></div>
+          </div>
+          <div class="formula-block">
+            <div class="formula-label">Crescimento Anual</div>
+            <code>YoY(t) = (V(t) - V(t-1)) / V(t-1) × 100</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar chart por estado -->
+      <div class="chart-wrap" style="margin-top:2px;">
+        <span class="chart-tag">Fig. E</span>
+        <div class="chart-title">Comercialização por Estado — 2022</div>
+        <div class="chart-subtitle">Participação % no total nacional · MAPA/Nota Técnica DAS/DFIA N° 3/2023</div>
+        <div style="margin-top:12px;">
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Mato Grosso — MT</span><span class="bar-val">28,4%</span></div><div class="bar-track"><div class="bar-fill" data-w="28.4"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Paraná — PR</span><span class="bar-val">14,2%</span></div><div class="bar-track"><div class="bar-fill" data-w="14.2"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Goiás — GO</span><span class="bar-val">11,8%</span></div><div class="bar-track"><div class="bar-fill" data-w="11.8"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Mato Grosso do Sul — MS</span><span class="bar-val">9,6%</span></div><div class="bar-track"><div class="bar-fill" data-w="9.6"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">São Paulo — SP</span><span class="bar-val">8,9%</span></div><div class="bar-track"><div class="bar-fill" data-w="8.9"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Rio Grande do Sul — RS</span><span class="bar-val">7,4%</span></div><div class="bar-track"><div class="bar-fill" data-w="7.4"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Bahia — BA</span><span class="bar-val">5,2%</span></div><div class="bar-track"><div class="bar-fill" data-w="5.2"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Minas Gerais — MG</span><span class="bar-val">4,8%</span></div><div class="bar-track"><div class="bar-fill" data-w="4.8"></div></div></div>
+          <div class="bar-item"><div class="bar-header"><span class="bar-name">Demais estados</span><span class="bar-val">9,7%</span></div><div class="bar-track"><div class="bar-fill sage" data-w="9.7"></div></div></div>
+        </div>
+        <div class="chart-source">Fonte: MAPA — Nota Técnica MAPA/DAS/DFIA N° 3/2023 · Dados de Comercialização 2022</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROJECT 02 — PLACEHOLDER -->
+  <div class="project-card" style="margin-bottom:2px; opacity:0.85;">
+    <div class="project-card-header" style="background:rgba(255,255,255,0.02);">
+      <div class="project-num-tag" style="color:var(--dust);">02</div>
+      <div class="project-badge" style="background:rgba(187,199,164,0.15); border-color:var(--sage); color:var(--sage-dark);">Em Desenvolvimento · 2025</div>
+      <div class="project-title">Dashboard Operacional — <em>Análise de Custos Capex</em></div>
+      <div class="project-subtitle">Armazéns de Grãos · Série Histórica · Multi-Unidade</div>
+      <p class="project-desc">
+        Análise estruturada dos custos de capital (Capex) e variáveis operacionais (Opex) em armazéns de grãos —
+        baseada em 6 anos de dados reais da operação. Dashboard interativo com decomposição por unidade,
+        sazonalidade e benchmarking de eficiência operacional.
+        <br><br><em style="color:var(--dust-dark); font-size:13px; font-style:italic;">→ Projeto em fase de documentação. Em breve disponível com dados e metodologia completos.</em>
+      </p>
+      <div class="project-tag-row">
+        <span class="project-tag">Power BI</span>
+        <span class="project-tag">Excel</span>
+        <span class="project-tag">Capex</span>
+        <span class="project-tag">Custos Operacionais</span>
+        <span class="project-tag">Agronegócio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 03 — PLACEHOLDER -->
+  <div class="project-card" style="opacity:0.75;">
+    <div class="project-card-header">
+      <div class="project-num-tag" style="color:var(--dust);">03</div>
+      <div class="project-badge" style="background:rgba(187,199,164,0.15); border-color:var(--sage); color:var(--sage-dark);">Breve · 2025</div>
+      <div class="project-title">Análise de <em>Rebates Comerciais</em> — Agro</div>
+      <div class="project-subtitle">Campanhas de Distribuição · KPIs Comerciais · DAX Avançado</div>
+      <p class="project-desc">
+        Modelagem e acompanhamento de campanhas comerciais de rebates e premiação de distribuidores —
+        com Power BI e DAX avançado. Indicadores de performance por canal, região e safra.
+        <br><br><em style="color:var(--dust-dark); font-size:13px; font-style:italic;">→ Projeto em fase de anonimização de dados. Em breve disponível.</em>
+      </p>
+      <div class="project-tag-row">
+        <span class="project-tag">Power BI</span>
+        <span class="project-tag">DAX</span>
+        <span class="project-tag">Rebates</span>
+        <span class="project-tag">Campanhas</span>
+        <span class="project-tag">Distribuição</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ════════════════════════════════════
+     05 — SOBRE PROJETOS / FILOSOFIA
+════════════════════════════════════ -->
+<section class="section alt">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div>
+      <div class="section-eyebrow">Abordagem Analítica</div>
+      <h2 class="section-title">Do dado bruto à<br>decisão <em>estratégica.</em></h2>
+      <p class="section-desc">
+        Minha metodologia parte sempre de fontes primárias verificáveis, cruza múltiplas bases
+        e entrega visualizações que qualquer stakeholder — técnico ou executivo — consegue
+        interpretar e confiar.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div style="background:var(--white); border:1px solid var(--dust); padding:36px 32px;">
+      <span style="font-size:26px; display:block; margin-bottom:16px;">🔍</span>
+      <div style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; margin-bottom:12px; letter-spacing:-0.3px; color:var(--jet);">Fontes Primárias</div>
+      <p style="font-size:13.5px; color:var(--jet-light); line-height:1.8; font-weight:300; margin-bottom:20px;">Cada análise começa com dados de origem verificável: órgãos regulatórios, associações setoriais, institutos de pesquisa. Nenhum dado sem referência.</p>
+      <div style="font-size:13px; font-weight:500; color:var(--jet); background:var(--ivory); border:1px solid var(--dust); padding:12px 16px; line-height:1.5;">→ MAPA, ABCBIO, CEPEA, SINDIVEG, IBGE</div>
+    </div>
+    <div style="background:var(--rose); padding:36px 32px;">
+      <span style="font-size:26px; display:block; margin-bottom:16px;">📐</span>
+      <div style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; margin-bottom:12px; letter-spacing:-0.3px; color:white;">Metodologia Explícita</div>
+      <p style="font-size:13.5px; color:rgba(255,255,255,0.85); line-height:1.8; font-weight:300; margin-bottom:20px;">Fórmulas, CAGRs e modelos de forecast documentados. Tech Recruiter ou Lead Tech pode validar cada número — da fórmula ao gráfico.</p>
+      <div style="font-size:13px; font-weight:500; color:white; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); padding:12px 16px; line-height:1.5;">→ CAGR · YoY · Market Share · Forecast</div>
+    </div>
+    <div style="background:var(--jet); padding:36px 32px;">
+      <span style="font-size:26px; display:block; margin-bottom:16px;">📊</span>
+      <div style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; margin-bottom:12px; letter-spacing:-0.3px; color:var(--ivory);">Visualização que Decide</div>
+      <p style="font-size:13.5px; color:var(--dust); line-height:1.8; font-weight:300; margin-bottom:20px;">Gráficos não são decoração. Cada visual escolhido para maximizar compreensão e velocidade de decisão — do CEO ao analista de campo.</p>
+      <div style="font-size:13px; font-weight:500; color:var(--ivory); background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); padding:12px 16px; line-height:1.5;">→ Storytelling com dados reais</div>
+    </div>
+  </div>
+
+  <div class="insight" style="margin-top:40px;">
+    <div class="insight-icon">◉</div>
+    <div>
+      <div class="insight-tag">Filosofia</div>
+      <p>Não existe análise boa com dado ruim. E não existe dado bom mal apresentado. Meu trabalho é garantir os dois lados da equação: <strong>rigor na coleta e clareza na entrega.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     06 — CONTATO
+════════════════════════════════════ -->
+<section class="section dark" id="contato">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div>
+      <div class="section-eyebrow">Contato</div>
+      <h2 class="section-title">Vamos construir<br>algo <em>juntos.</em></h2>
+      <p class="section-desc">
+        Aberto a conversas sobre <strong>oportunidades de análise de dados, BI e ciência de dados</strong>
+        no agronegócio ou em setores onde dados operacionais são críticos para a decisão.
+      </p>
+    </div>
+  </div>
+
+  <div class="contact-grid">
+    <a href="mailto:jleonardopl@gmail.com" class="contact-card">
+      <span class="contact-icon">✉</span>
+      <div class="contact-label">E-mail Profissional</div>
+      <div class="contact-value">jleonardopl<br>@gmail.com</div>
+    </a>
+    <a href="https://www.linkedin.com/in/jonas-leonardo/" target="_blank" class="contact-card">
+      <span class="contact-icon">in</span>
+      <div class="contact-label">LinkedIn</div>
+      <div class="contact-value">Jonas Leonardo<br>Paula Leite da Silva</div>
+    </a>
+    <div class="contact-card" style="cursor:default; background:var(--jet); border-color:rgba(255,255,255,0.09);">
+      <span class="contact-icon" style="color:var(--sage);">📍</span>
+      <div class="contact-label" style="color:var(--dust-dark);">Localização</div>
+      <div class="contact-value" style="color:var(--ivory);">Cuiabá, MT<br>Brasil</div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px; background:rgba(231,90,124,0.08); border-left:3px solid var(--rose); padding:24px 32px; display:grid; grid-template-columns:40px 1fr; gap:20px; align-items:start;">
+    <div style="font-family:'Playfair Display',serif; font-size:28px; font-weight:900; color:var(--rose); line-height:1.1;">!</div>
+    <div>
+      <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--rose); margin-bottom:8px;">Disponibilidade</div>
+      <p style="font-size:14.5px; color:var(--ivory); line-height:1.8;">Disponível para <strong style="color:white;">oportunidades CLT ou PJ</strong> em análise de dados, BI e ciência de dados. Experiência sólida no agronegócio, mas com capacidade analítica aplicável a qualquer setor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer>
+  <div>
+    <div class="footer-brand">Jonas<br><em>Leonardo.</em></div>
+    <p class="footer-tagline">Data Analyst · Business Intelligence · Python. Transformando dados em decisões estratégicas há mais de 9 anos no agronegócio brasileiro.</p>
+  </div>
+  <div class="footer-col">
+    <h5>Ferramentas</h5>
+    <ul>
+      <li>Microsoft Excel</li>
+      <li>Power BI</li>
+      <li>Python · Pandas</li>
+      <li>SQL</li>
+      <li>DAX Avançado</li>
+      <li>Power Query</li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Projetos</h5>
+    <ul>
+      <li>Revolução Verde 2.0</li>
+      <li>Dashboard Capex</li>
+      <li>Análise de Rebates</li>
+      <li>Em desenvolvimento...</li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h5>Contato</h5>
+    <ul>
+      <li>jleonardopl@gmail.com</li>
+      <li>LinkedIn · /jonas-leonardo</li>
+      <li>Cuiabá, MT · Brasil</li>
+      <li>Disponível para oportunidades</li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Jonas Leonardo · Portfolio · Data Analyst & BI</span>
+  <span class="footer-copy">Desenvolvido com HTML · CSS · Chart.js</span>
+</div>
+
+<!-- ════════════════════════════════════
+     SCRIPTS — CHARTS
+════════════════════════════════════ -->
+<script>
+// ═══════════ PALETTE ═══════════
+const C = {
+  rose:'#E75A7C', rosePale:'#F2A0B4', roseVPale:'rgba(231,90,124,0.12)',
+  jet:'#2C363F', jetLight:'#4A5A65',
+  sage:'#BBC7A4', sageDark:'#8FA07A',
+  dust:'#D6DBD2', dustDark:'#B8C0B4',
+  ivory:'#F2F5EA', white:'#FFFFFF',
+};
+
+Chart.defaults.color = C.dustDark;
+Chart.defaults.font.family = "'DM Mono', monospace";
+Chart.defaults.font.size = 10;
+
+const grid = { color: C.dust, lineWidth: 0.8 };
+const tip = {
+  backgroundColor: C.jet, borderColor: C.rose, borderWidth: 1,
+  titleColor: C.rose, bodyColor: C.ivory, padding: 14, cornerRadius: 2,
+  titleFont: { family:"'DM Mono',monospace", size:10 },
+  bodyFont: { family:"'DM Sans',sans-serif", size:12 },
+};
+const xScale = { grid:{ color:'rgba(214,219,210,0.5)', lineWidth:0.8 }, ticks:{ color:C.dustDark }, border:{ color:C.dust } };
+const yScale = { grid, ticks:{ color:C.dustDark }, border:{ color:C.dust } };
+
+const ANOS = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023];
+
+// ═══════════ DATA ═══════════
+const bio_usd=[150,185,220,265,310,390,495,620,810,1050,1380,1720];
+const share_pct=[1.2,1.5,1.8,2.1,2.5,3.1,3.8,4.6,5.8,7.2,9.1,11.3];
+const custo_quim=[680,710,755,820,890,950,1020,1080,1250,1680,1890,1650];
+const custo_bio=[45,52,63,78,98,125,168,215,285,380,490,560];
+const yoy=[null,23.3,18.9,20.5,17.0,25.8,26.9,25.3,30.6,29.6,31.4,24.6];
+
+// ═══════════ RADAR — Expertise ═══════════
+new Chart(document.getElementById('chart-radar'), {
+  type: 'radar',
+  data: {
+    labels: ['Excel / DAX', 'Power BI', 'Python', 'SQL', 'KPIs', 'Agroneg.', 'Capex/Fin.'],
+    datasets: [{
+      label: 'Jonas Leonardo',
+      data: [95, 90, 78, 72, 92, 95, 85],
+      backgroundColor: 'rgba(231,90,124,0.15)',
+      borderColor: C.rose,
+      pointBackgroundColor: C.rose,
+      pointBorderColor: C.white,
+      pointBorderWidth: 2,
+      pointRadius: 5,
+      borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true,
+    animation: { duration: 1600, easing: 'easeInOutQuart' },
+    plugins: {
+      legend: { display: false },
+      tooltip: { ...tip, callbacks: { label: ctx => ` Proficiência: ${ctx.raw}/100` } }
+    },
+    scales: {
+      r: {
+        beginAtZero: true, max: 100,
+        grid: { color: C.dust },
+        angleLines: { color: C.dust },
+        ticks: { color: C.dustDark, backdropColor: 'transparent', stepSize: 25 },
+        pointLabels: { color: C.jetLight, font: { size: 10, family: "'DM Mono',monospace" } }
+      }
+    }
+  }
+});
+
+// ═══════════ SKILLS TIMELINE ═══════════
+const skillYears = [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+new Chart(document.getElementById('chart-skills-timeline'), {
+  type: 'line',
+  data: {
+    labels: skillYears,
+    datasets: [
+      { label: 'Excel / DAX', data: [60,68,75,80,84,88,91,93,94,95], borderColor: C.jet, backgroundColor: 'transparent', tension: 0.4, pointRadius: 3, pointBackgroundColor: C.jet, borderWidth: 2 },
+      { label: 'Power BI', data: [null,null,null,45,58,70,80,86,88,90], borderColor: C.rose, backgroundColor: 'transparent', tension: 0.4, pointRadius: 3, pointBackgroundColor: C.rose, borderWidth: 2 },
+      { label: 'Python', data: [null,null,null,null,null,35,52,64,72,78], borderColor: C.sageDark, backgroundColor: 'transparent', tension: 0.4, pointRadius: 3, pointBackgroundColor: C.sageDark, borderWidth: 2, borderDash: [4,3] },
+      { label: 'SQL', data: [null,null,null,null,30,45,55,62,68,72], borderColor: C.dustDark, backgroundColor: 'transparent', tension: 0.4, pointRadius: 3, pointBackgroundColor: C.dustDark, borderWidth: 2, borderDash: [4,3] },
+    ]
+  },
+  options: {
+    responsive: true, animation: { duration: 1600 },
+    plugins: { legend: { labels: { color: C.jetLight, font: { size: 11 }, boxWidth: 10, padding: 14 } }, tooltip: { ...tip } },
+    scales: { x: xScale, y: { ...yScale, min: 0, max: 100, ticks: { ...yScale.ticks, callback: v => `${v}` } } }
+  }
+});
+
+// ═══════════ PROJECT CHARTS ═══════════
+// A — Main Bio Market
+new Chart(document.getElementById('proj-chart-main'), {
+  type: 'bar',
+  data: {
+    labels: ANOS,
+    datasets: [
+      { type: 'bar', label: 'Mercado Biológicos (US$ Mi)', data: bio_usd, yAxisID: 'y', order: 2, borderRadius: 1, borderWidth: 1,
+        backgroundColor: bio_usd.map((_,i) => i>=6 ? `rgba(231,90,124,${0.35+i*0.04})` : `rgba(187,199,164,${0.4+i*0.05})`),
+        borderColor: bio_usd.map((_,i) => i>=6 ? C.rose : C.sage) },
+      { type: 'line', label: 'Market Share (%)', data: share_pct, yAxisID: 'y2', order: 1,
+        borderColor: C.jet, backgroundColor: 'transparent',
+        pointBackgroundColor: C.jet, pointBorderColor: C.white, pointBorderWidth: 2,
+        pointRadius: 4, pointHoverRadius: 7, borderWidth: 2.5, tension: 0.4 }
+    ]
+  },
+  options: {
+    responsive: true, interaction: { mode: 'index', intersect: false },
+    animation: { duration: 1600, easing: 'easeInOutQuart' },
+    plugins: { legend: { labels: { color: C.jetLight, font: { size: 11 }, boxWidth: 10, padding: 14 } }, tooltip: { ...tip } },
+    scales: {
+      x: xScale,
+      y: { ...yScale, position: 'left', ticks: { ...yScale.ticks, callback: v => `$${v}Mi` } },
+      y2: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, border: { color: C.dust }, ticks: { color: C.jetLight, callback: v => `${v}%` } }
+    }
+  }
+});
+
+// B — Forecast
+const anos_full = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028];
+const bio_real  = [150,185,220,265,310,390,495,620,810,1050,1380,1720,null,null,null,null,null];
+const bio_proj  = [null,null,null,null,null,null,null,null,null,null,null,1720,2150,2680,3320,4100,5050];
+const share_f   = [1.2,1.5,1.8,2.1,2.5,3.1,3.8,4.6,5.8,7.2,9.1,11.3,13.8,16.2,18.9,21.8,25.1];
+
+new Chart(document.getElementById('proj-chart-forecast'), {
+  type: 'bar',
+  data: {
+    labels: anos_full,
+    datasets: [
+      { type: 'bar', label: 'Real (US$ Mi)', data: bio_real, backgroundColor: 'rgba(187,199,164,0.55)', borderColor: C.sage, borderWidth: 1, borderRadius: 1, yAxisID: 'y', order: 3 },
+      { type: 'bar', label: 'Projeção (US$ Mi)', data: bio_proj, backgroundColor: 'rgba(231,90,124,0.22)', borderColor: C.rose, borderWidth: 1, borderRadius: 1, yAxisID: 'y', order: 2 },
+      { type: 'line', label: 'Market Share (%)', data: share_f,
+        borderColor: C.jet, backgroundColor: 'transparent',
+        pointBackgroundColor: anos_full.map((_,i) => i<12 ? C.jet : C.rose),
+        pointBorderColor: C.white, pointBorderWidth: 2, pointRadius: 4, borderWidth: 2, tension: 0.4, yAxisID: 'y2', order: 1 }
+    ]
+  },
+  options: {
+    responsive: true, interaction: { mode: 'index', intersect: false }, animation: { duration: 1600 },
+    plugins: { legend: { labels: { color: C.jetLight, font: { size: 10 }, boxWidth: 10, padding: 12 } }, tooltip: { ...tip } },
+    scales: {
+      x: { ...xScale, ticks: { ...xScale.ticks, font: { size: 8 } } },
+      y: { ...yScale, position: 'left', ticks: { ...yScale.ticks, callback: v => v>=1000 ? `$${(v/1000).toFixed(1)}Bi` : `$${v}Mi` } },
+      y2: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, border: { color: C.dust }, ticks: { color: C.jetLight, callback: v => `${v}%` } }
+    }
+  }
+});
+
+// C — Custo
+new Chart(document.getElementById('proj-chart-custo'), {
+  type: 'line',
+  data: {
+    labels: ANOS,
+    datasets: [
+      { label: 'Químicos R$/ha', data: custo_quim, borderColor: C.jet, backgroundColor: 'rgba(44,54,63,0.05)', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: C.jet, borderWidth: 2 },
+      { label: 'Biológicos R$/ha', data: custo_bio, borderColor: C.rose, backgroundColor: 'rgba(231,90,124,0.07)', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: C.rose, borderWidth: 2 }
+    ]
+  },
+  options: {
+    responsive: true, animation: { duration: 1400 },
+    plugins: { legend: { labels: { color: C.jetLight, font: { size: 11 }, boxWidth: 10, padding: 14 } }, tooltip: { ...tip, callbacks: { label: ctx => ` R$ ${ctx.raw}/ha` } } },
+    scales: { x: xScale, y: { ...yScale, ticks: { ...yScale.ticks, callback: v => `R$${v}` } } }
+  }
+});
+
+// D — YoY
+new Chart(document.getElementById('proj-chart-yoy'), {
+  type: 'bar',
+  data: {
+    labels: ANOS,
+    datasets: [{ label: 'Crescimento YoY (%)', data: yoy,
+      backgroundColor: yoy.map(v => v===null ? 'transparent' : v>28 ? C.rose : '#F2A0B4'),
+      borderColor: 'transparent', borderWidth: 0, borderRadius: 1 }]
+  },
+  options: {
+    responsive: true, animation: { duration: 1300 },
+    plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: ctx => ctx.raw ? ` +${ctx.raw.toFixed(1)}%` : ' —' } } },
+    scales: { x: xScale, y: { ...yScale, min: 0, ticks: { ...yScale.ticks, callback: v => `${v}%` } } }
+  }
+});
+
+// ═══════════ ANIMATE BARS ═══════════
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach((f, i) => {
+        setTimeout(() => { f.style.width = f.dataset.w + '%'; }, i * 80);
+      });
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.chart-wrap, .project-card').forEach(el => {
+  if (el.querySelector('.bar-fill')) obs.observe(el);
+});
+
+// Fallback
+setTimeout(() => {
+  document.querySelectorAll('.bar-fill').forEach(f => { f.style.width = f.dataset.w + '%'; });
+}, 3000);
+
+// ═══════════ TOPBAR ACTIVE NAV ═══════════
+window.addEventListener('scroll', () => {
+  const sections = ['inicio','sobre','habilidades','experiencia','projetos','contato'];
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 100) current = id;
+  });
+  document.querySelectorAll('.topbar-nav a').forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/25602729/README.md)
 # Jonas Leonardo · Data Analyst & BI Portfolio
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-Live-E75A7C?style=flat-square&logoColor=white)](https://jleonardopl.github.io/portfolio)
