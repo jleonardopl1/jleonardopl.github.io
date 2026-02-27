@@ -324,6 +324,153 @@ canvas{display:block;width:100%!important;}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);}
+
+/* ═══════════════════════════════
+   RESPONSIVE — TABLET (≤900px)
+═══════════════════════════════ */
+@media (max-width:900px) {
+  .topbar{padding:0 24px;}
+  .topbar-nav{display:none;}
+  .hero{grid-template-columns:1fr;padding:100px 24px 60px;gap:40px;min-height:auto;}
+  .hero-right{grid-template-columns:1fr 1fr;}
+  .section{padding:64px 24px;}
+  .section-header{grid-template-columns:60px 1fr;gap:24px;}
+  .section-num{font-size:56px;}
+  .g2{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr 1fr;}
+  .g4{grid-template-columns:1fr 1fr;}
+  .kpi-row{grid-template-columns:1fr 1fr;}
+  .skill-grid{grid-template-columns:1fr 1fr;}
+  .exp-item{grid-template-columns:1fr;gap:16px;}
+  .about-panel{padding:36px 28px;}
+  footer{grid-template-columns:1fr 1fr;gap:32px;padding:48px 24px;}
+  .footer-btm{padding:16px 24px;flex-direction:column;gap:6px;text-align:center;}
+  .contact-wrap{grid-template-columns:1fr;}
+  .resources-cols{grid-template-columns:1fr 1fr;}
+  .res-block{padding:24px 20px;}
+}
+
+/* ═══════════════════════════════
+   RESPONSIVE — MOBILE (≤600px)
+═══════════════════════════════ */
+@media (max-width:600px) {
+  /* Topbar */
+  .topbar{padding:0 16px;height:48px;}
+  .topbar-label{display:none;}
+  .topbar-controls{gap:4px;}
+  .ctrl-btn{font-size:8px;padding:3px 7px;}
+
+  /* Hero */
+  .hero{padding:80px 20px 48px;gap:32px;}
+  .hero h1{font-size:clamp(40px,11vw,56px);letter-spacing:-1.5px;}
+  .hero-sub{font-size:14px;margin-top:20px;}
+  .hero-meta{gap:8px;margin-top:28px;}
+  .hero-meta-tag{font-size:9px;padding:5px 10px;}
+  .hero-cta{gap:10px;margin-top:24px;}
+  .btn-primary,.btn-secondary{padding:12px 20px;font-size:9px;}
+  .hero-right{grid-template-columns:1fr 1fr;gap:2px;}
+  .stat-card{padding:20px 16px;}
+  .stat-num{font-size:28px;}
+  .stat-num .plus{font-size:17px;}
+  .stat-lbl{font-size:9px;letter-spacing:1px;}
+  .stat-delta{font-size:11px;}
+
+  /* Sections */
+  .section{padding:48px 20px;}
+  .section-header{grid-template-columns:1fr;gap:0;}
+  .section-num{display:none;}
+  .section-title{font-size:clamp(24px,6vw,32px);}
+  .section-desc{font-size:14px;}
+
+  /* About */
+  .about-panel{padding:28px 20px;}
+  .about-quote{font-size:17px;}
+  .about-body{font-size:13px;}
+  .about-fact-val{font-size:14px;}
+
+  /* Charts */
+  .chart-wrap{padding:24px 16px 20px;}
+  .chart-title{font-size:15px;}
+  .chart-sub{font-size:9px;margin-bottom:20px;}
+
+  /* Skills */
+  .skill-grid{grid-template-columns:1fr;}
+  .skill-card{padding:22px 18px;}
+
+  /* KPIs */
+  .kpi-row{grid-template-columns:1fr 1fr;}
+  .kpi-val{font-size:22px;}
+  .kpi-lbl{font-size:8px;}
+
+  /* Experience */
+  .exp-item{grid-template-columns:1fr;gap:8px;padding:32px 0;}
+  .exp-role{font-size:17px;}
+  .exp-list li{font-size:12.5px;}
+  .exp-tags{gap:6px;}
+  .exp-tag{font-size:8px;padding:3px 8px;}
+
+  /* Blog / Projects */
+  .blog-header{padding:24px 20px 20px;}
+  .blog-title{font-size:19px;}
+  .blog-num{font-size:28px;top:16px;right:16px;}
+  .blog-summary{font-size:13px;}
+  .blog-tags{gap:6px;}
+  .blog-tag{font-size:8px;}
+  .blog-actions{gap:8px;}
+  .btn-toggle,.btn-repo{font-size:8px;padding:6px 10px;}
+  .blog-body-inner{padding:24px 20px;}
+
+  /* Method panels */
+  .method-panel{padding:28px 20px;}
+  .src-txt{font-size:12px;}
+  .formula code{font-size:10px;}
+
+  /* Bar chart */
+  .bar-name{font-size:12px;}
+  .bar-val{font-size:11px;}
+
+  /* Resources */
+  .resources-cols{grid-template-columns:1fr;}
+  .res-card{padding:18px 16px;}
+  .res-block{padding:20px 16px;}
+  .res-list{gap:5px;}
+  .res-pill{font-size:8px;padding:2px 7px;}
+
+  /* Cert row */
+  .cert-row{flex-direction:column;}
+  .cert-card{min-width:100%;}
+
+  /* Contact */
+  .contact-wrap{grid-template-columns:1fr;max-width:100%;}
+  .contact-card{padding:32px 24px;}
+  .contact-val{font-size:17px;}
+
+  /* Insight */
+  .insight{padding:18px 20px;gap:14px;}
+  .ins-icon{font-size:22px;}
+
+  /* Footer */
+  footer{grid-template-columns:1fr;gap:28px;padding:40px 20px;}
+  .footer-btm{padding:14px 20px;flex-direction:column;gap:4px;text-align:center;}
+}
+
+/* ── Mobile nav hamburger ── */
+@media (max-width:900px) {
+  .mob-menu-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:none;border:1px solid var(--border);cursor:pointer;flex-shrink:0;}
+  .mob-menu-btn span{display:block;width:14px;height:1.5px;background:var(--txt);position:relative;transition:all .2s;}
+  .mob-menu-btn span::before,.mob-menu-btn span::after{content:'';position:absolute;width:14px;height:1.5px;background:var(--txt);left:0;transition:all .2s;}
+  .mob-menu-btn span::before{top:-5px;}
+  .mob-menu-btn span::after{top:5px;}
+  .mob-nav{display:none;position:fixed;top:48px;left:0;right:0;background:var(--topbar);border-bottom:2px solid var(--rose);padding:16px 24px;z-index:998;flex-direction:column;gap:0;}
+  .mob-nav.open{display:flex;}
+  .mob-nav a{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--txt-lt);text-decoration:none;padding:14px 0;border-bottom:1px solid var(--border);}
+  .mob-nav a:last-child{border-bottom:none;}
+  .mob-nav a:hover,.mob-nav a.active{color:var(--rose);}
+}
+@media (min-width:901px) {
+  .mob-menu-btn{display:none;}
+  .mob-nav{display:none!important;}
+}
 </style>
 </head>
 <body id="inicio">
@@ -347,8 +494,18 @@ canvas{display:block;width:100%!important;}
       <span class="ctrl-sep">|</span>
       <button class="ctrl-btn active" id="btnPT" onclick="setLang('pt')">PT</button>
       <button class="ctrl-btn" id="btnEN" onclick="setLang('en')">EN</button>
+      <button class="mob-menu-btn" id="mobMenuBtn" aria-label="Menu"><span></span></button>
     </div>
   </div>
+</nav>
+
+<!-- Mobile Nav -->
+<nav class="mob-nav" id="mobNav">
+  <a href="#sobre" onclick="closeMobNav()"><span class="pt">Sobre</span><span class="en">About</span></a>
+  <a href="#habilidades" onclick="closeMobNav()"><span class="pt">Habilidades</span><span class="en">Skills</span></a>
+  <a href="#experiencia" onclick="closeMobNav()"><span class="pt">Experiência</span><span class="en">Experience</span></a>
+  <a href="#projetos" onclick="closeMobNav()"><span class="pt">Projetos</span><span class="en">Projects</span></a>
+  <a href="#contato" onclick="closeMobNav()"><span class="pt">Contato</span><span class="en">Contact</span></a>
 </nav>
 
 <!-- ═══════════════════════════════════
@@ -1009,7 +1166,7 @@ canvas{display:block;width:100%!important;}
   </div>
 
   <div class="contact-wrap">
-    <a href="mailto:jleonardopl@gmail.com" class="contact-card">
+    <a href="/cdn-cgi/l/email-protection#c0aaaca5afaea1b2a4afb0ac80a7ada1a9aceea3afad" class="contact-card">
       <span class="contact-icon">✉</span>
       <div class="contact-lbl">E-mail</div>
       <div class="contact-val">jleonardopl<br>@gmail.com</div>
@@ -1022,17 +1179,7 @@ canvas{display:block;width:100%!important;}
     </a>
   </div>
 
-  <div style="margin-top:2px;">
-    <div class="insight dark-ins" style="margin:0;">
-      <div class="ins-icon">◎</div>
-      <div>
-        <div class="ins-tag pt">Disponibilidade</div>
-        <div class="ins-tag en">Availability</div>
-        <p class="pt">Disponível para <strong>oportunidades CLT ou PJ</strong> em análise de dados, BI e ciência de dados. Experiência sólida no agronegócio, com capacidade analítica aplicável a qualquer setor. Cuiabá, MT — Brasil.</p>
-        <p class="en">Available for <strong>full-time or contract</strong> opportunities in data analytics, BI and data science. Solid agribusiness background, with analytical capabilities applicable to any sector. Cuiabá, MT — Brazil.</p>
-      </div>
-    </div>
-  </div>
+
 </section>
 
 <!-- FOOTER -->
@@ -1052,7 +1199,7 @@ canvas{display:block;width:100%!important;}
   </div>
   <div class="footer-col">
     <h5><span class="pt">Contato</span><span class="en">Contact</span></h5>
-    <ul><li>jleonardopl@gmail.com</li><li>+55 (65) 99251-8431</li><li>LinkedIn · /jonas-leonardo</li><li>Cuiabá, MT · Brasil</li></ul>
+    <ul><li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="84eee8e1ebeae5f6e0ebf4e8c4e3e9e5ede8aae7ebe9">[email&#160;protected]</a></li><li>+55 (65) 99251-8431</li><li>LinkedIn · /jonas-leonardo</li><li>Cuiabá, MT · Brasil</li></ul>
   </div>
 </footer>
 <div class="footer-btm">
@@ -1064,7 +1211,20 @@ canvas{display:block;width:100%!important;}
 <!-- ═══════════════════════════════════
      SCRIPTS
 ═══════════════════════════════════ -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── MOBILE MENU ──
+const mobMenuBtn = document.getElementById('mobMenuBtn');
+const mobNav = document.getElementById('mobNav');
+function closeMobNav() { mobNav.classList.remove('open'); }
+if (mobMenuBtn) {
+  mobMenuBtn.addEventListener('click', () => { mobNav.classList.toggle('open'); });
+}
+document.addEventListener('click', e => {
+  if (mobNav && mobNav.classList.contains('open') && !mobNav.contains(e.target) && !mobMenuBtn.contains(e.target)) {
+    closeMobNav();
+  }
+});
+
 // ── THEME ──
 const html = document.documentElement;
 const themeBtn = document.getElementById('themeBtn');
@@ -1220,16 +1380,7 @@ window.addEventListener('scroll', () => {
   const ids = ['inicio','sobre','habilidades','experiencia','projetos','contato'];
   let cur = '';
   ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && window.scrollY >= el.offsetTop - 120) cur = id;
-  });
-  document.querySelectorAll('.topbar-nav a').forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#'+cur);
-  });
-});
-</script>
-</body>
-</html>
+  
 
 
 Site de portfólio profissional para LinkedIn - Claude
