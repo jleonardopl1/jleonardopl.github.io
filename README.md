@@ -1,2 +1,2 @@
 # jleonardopl.github.io
-Portfolio site
+Portfólio profissional — Data Analyst & BI
